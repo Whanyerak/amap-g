@@ -1,6 +1,7 @@
 package fr.vat.amapg.amapg.security.authentication.controller;
 
 import fr.vat.amapg.amapg.security.controller.AuthenticationController;
+import fr.vat.amapg.amapg.configuration.bean.MockedModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,18 +25,18 @@ class AuthenticationControllerTest {
         assertThat(viewName).isEqualTo("security/login");
     }
 
-//    @Test
-//    void shouldReturnLoginViewWithLoginErrorInModel_whenRootingToLoginError() {
-//        // Arrange
-//        MockedModel model = new MockedModel();
-//
-//        // Act
-//        String viewName = authenticationController.failedLogin(model);
-//
-//        // Assert
-//        assertThat(viewName).isEqualTo("security/login");
-//        assertThat(model.getAttribute("loginError")).isEqualTo(true);
-//    }
+    @Test
+    void shouldReturnLoginViewWithLoginErrorInModel_whenRootingToLoginError() {
+        // Arrange
+        MockedModel model = new MockedModel();
+
+        // Act
+        String viewName = authenticationController.failedLogin(model);
+
+        // Assert
+        assertThat(viewName).isEqualTo("security/login");
+        assertThat(model.getAttribute("loginError")).isEqualTo(true);
+    }
 
     @Test
     void shouldReturnLogoutView_whenRootingToLogout() {

@@ -1,21 +1,22 @@
-package fr.vat.amapg.amapg.authentication.login;
+package fr.vat.amapg.amapg.security.authentication;
 
-import fr.vat.amapg.amapg.authentication.login.entity.AuthenticatedUser;
-import fr.vat.amapg.amapg.authentication.persistence.UserMongoDao;
-import fr.vat.amapg.amapg.authentication.persistence.UserMongoDto;
+import fr.vat.amapg.amapg.security.UserRole;
+import fr.vat.amapg.amapg.security.authentication.entity.AuthenticatedUser;
+import fr.vat.amapg.amapg.security.persistence.UserMongoDao;
+import fr.vat.amapg.amapg.security.persistence.UserMongoDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import static java.util.stream.Collectors.toSet;
+
 @Component
+@RequiredArgsConstructor // TODO : Use in AnnotationFactory
 public class LoginService implements UserDetailsService {
 
     private final UserMongoDao userMongoDao;
-
-    public LoginService(UserMongoDao userMongoDao) {
-        this.userMongoDao = userMongoDao;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -26,7 +27,9 @@ public class LoginService implements UserDetailsService {
         return new AuthenticatedUser(
                 userDto.getUsername(),
                 userDto.getPassword(),
-                userDto.getRoles()
+                userDto.getRoles().stream()
+                        .map(UserRole::valueOf)
+                        .collect(toSet())
         );
     }
 
