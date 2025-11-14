@@ -18,20 +18,21 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/public/**", "/register/**").permitAll()
-                    .anyRequest().authenticated()
+                        .requestMatchers("/public/**", "/register/**", "/index").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
-                    .loginPage("/auth/login")
-                    .failureUrl("/auth/login-error")
-                    .permitAll()
+                        .loginPage("/auth/login")
+                        .failureUrl("/auth/login-error")
+                        .permitAll()
                 )
                 .logout(logout -> logout
-                    .logoutUrl("/auth/logout")
-                    .permitAll()
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessUrl("/index")
+                        .permitAll()
                 )
                 .formLogin(Customizer.withDefaults()
-        ).build();
+                ).build();
     }
 
     @Bean
