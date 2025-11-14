@@ -34,7 +34,7 @@ public class SecurityConfiguration {
                 )
                 .logout(logout -> logout
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/common/homepage")
+                    .logoutSuccessUrl("/")
                     .permitAll()
                 )
                 .formLogin(Customizer.withDefaults())
