@@ -1,6 +1,6 @@
-package fr.vat.amapg.amapg.authentication.login.entity;
+package fr.vat.amapg.amapg.security.authentication.entity;
 
-import fr.vat.amapg.amapg.authentication.UserRole;
+import fr.vat.amapg.amapg.security.UserRole;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

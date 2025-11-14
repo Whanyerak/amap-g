@@ -1,4 +1,4 @@
-package fr.vat.amapg.amapg.authentication.configuration;
+package fr.vat.amapg.amapg.security.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,22 +16,29 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        String[] publicPaths = {
+            "/",
+            "/showcase/**",
+            "/register/**"
+        };
+
         return http
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/public/**", "/register/**").permitAll()
+                    .requestMatchers(publicPaths).permitAll()
                     .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
-                    .loginPage("/auth/login")
-                    .failureUrl("/auth/login-error")
+                    .loginPage("/login")
+                    .failureUrl("/login-error")
                     .permitAll()
                 )
                 .logout(logout -> logout
-                    .logoutUrl("/auth/logout")
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/common/homepage")
                     .permitAll()
                 )
-                .formLogin(Customizer.withDefaults()
-        ).build();
+                .formLogin(Customizer.withDefaults())
+                .build();
     }
 
     @Bean

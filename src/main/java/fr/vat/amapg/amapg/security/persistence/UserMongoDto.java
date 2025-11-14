@@ -1,6 +1,5 @@
-package fr.vat.amapg.amapg.authentication.persistence;
+package fr.vat.amapg.amapg.security.persistence;
 
-import fr.vat.amapg.amapg.authentication.UserRole;
 import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -15,9 +14,9 @@ public class UserMongoDto {
     private final @MongoId UUID id;
     private final String username;
     private final String password;
-    private final Set<UserRole> roles;
+    private final Set<String> roles;
 
-    public UserMongoDto(UUID id, String username, String password, Set<UserRole> roles) {
+    public UserMongoDto(UUID id, String username, String password, Set<String> roles) {
         this.id = id;
         this.username = username;
         this.password = password;

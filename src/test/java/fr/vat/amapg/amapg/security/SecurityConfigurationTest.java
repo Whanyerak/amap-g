@@ -1,22 +1,21 @@
-package fr.vat.amapg.amapg.authentication.controller;
+package fr.vat.amapg.amapg.security;
 
-import fr.vat.amapg.amapg.authentication.persistence.UserMongoDao;
-import fr.vat.amapg.amapg.authentication.persistence.UserMongoDto;
+import fr.vat.amapg.amapg.configuration.MongoTestConfiguration;
+import fr.vat.amapg.amapg.security.persistence.UserMongoDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Set;
 import java.util.UUID;
 
-import static fr.vat.amapg.amapg.authentication.UserRole.ADMIN;
-import static fr.vat.amapg.amapg.authentication.UserRole.USER;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
@@ -25,38 +24,45 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Import(MongoTestConfiguration.class)
 @AutoConfigureMockMvc
-class LoginControllerTest {
+class SecurityConfigurationTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Autowired
-    private UserMongoDao userMongoDao;
+    private MongoTemplate mongoTemplate;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @BeforeEach
     public void setup() {
-        userMongoDao.deleteAll();
-        userMongoDao.save(new UserMongoDto(UUID.randomUUID(), "testuser", passwordEncoder.encode("password"), Set.of(USER)));
-        userMongoDao.save(new UserMongoDto(UUID.randomUUID(), "testadmin", passwordEncoder.encode("password"), Set.of(ADMIN)));
+        mongoTemplate.dropCollection("user");
+        mongoTemplate.save(
+                new UserMongoDto(
+                        UUID.randomUUID(),
+                        "testuser",
+                        passwordEncoder.encode("password"),
+                        Set.of("USER")
+                )
+        );
     }
 
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
-        mvc.perform(get("/auth/login")).andExpect(status().isOk());
+        mvc.perform(get("/login")).andExpect(status().isOk());
     }
 
     @Test
     public void shouldReturnSuccessLogin() throws Exception {
-        mvc.perform(formLogin("/auth/login").user("testuser").password("password")).andExpect(authenticated());
+        mvc.perform(formLogin("/login").user("testuser").password("password")).andExpect(authenticated());
     }
 
     @Test
     public void userLoginFailed() throws Exception {
-        mvc.perform(formLogin("/auth/login").user("user").password("wrongpassword")).andExpect(unauthenticated());
+        mvc.perform(formLogin("/login").user("testuser").password("wrongpassword")).andExpect(unauthenticated());
     }
 
 /*    @Test
