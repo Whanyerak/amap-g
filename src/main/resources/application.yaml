@@ -1,0 +1,6 @@
+spring.application.name: amapg
+spring:
+  data:
+    mongodb:
+      uuid-representation: standard
+      database: amapg
