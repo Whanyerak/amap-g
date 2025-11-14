@@ -7,10 +7,10 @@
 <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
 
     <div class="rounded border border-secondary-subtle p-5">
-        <form action="/auth/login">
+        <form th:action="@{/auth/login}" method="post">
             <div class="mb-3">
-                <label for="login" class="form-label">Email</label>
-                <input type="email" class="form-control" id="login" aria-describedby="emailHelp">
+                <label for="username" class="form-label">Email</label>
+                <input type="text" class="form-control" id="username" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Mot de passe</label>
