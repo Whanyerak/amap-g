@@ -3,6 +3,7 @@ package fr.vat.amapg.amapg.security.persistence;
 import fr.vat.amapg.amapg.security.register.entity.User;
 import fr.vat.amapg.amapg.security.register.port.RegisterUserPort;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
@@ -14,41 +15,31 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static fr.vat.amapg.amapg.security.UserRole.USER;
 import static org.passay.IllegalCharacterRule.ERROR_CODE;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RegisterUserAdapter implements RegisterUserPort {
 
     private final UserMongoDao userMongoDao;
-    private final UserProfileMongoDao userProfileMongoDao;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public void registerUser(User user, String userIdSeed) {
+    public String registerUser(User user, String userIdSeed) {
+        UUID userId = UUID.nameUUIDFromBytes(userIdSeed.getBytes());
+
         var userMongoDto = new UserMongoDto(
-                UUID.nameUUIDFromBytes(userIdSeed.getBytes()),
+                userId,
                 user.email(),
                 generatePassword(),
-                Set.of("USER")
-        );
-
-        String seed = user.firstName() + user.lastName();
-
-        var userProfileMongoDto = new UserProfileMongoDto(
-                UUID.nameUUIDFromBytes(seed.getBytes()),
-                userMongoDto.getId(),
-                user.firstName(),
-                user.lastName(),
-                user.address(),
-                user.postalCode(),
-                user.city(),
-                user.phoneNumber(),
-                user.email()
+                Set.of(USER.toString())
         );
 
         userMongoDao.save(userMongoDto);
-        userProfileMongoDao.save(userProfileMongoDto);
+
+        return userId.toString();
     }
 
     public String generatePassword() {
@@ -77,14 +68,18 @@ public class RegisterUserAdapter implements RegisterUserPort {
         CharacterRule splCharRule = new CharacterRule(specialChars);
         splCharRule.setNumberOfCharacters(2);
 
-        return passwordEncoder.encode(gen.generatePassword(
-            10,
-            List.of(
-                splCharRule,
-                lowerCaseRule,
-                upperCaseRule,
-                digitRule)
-            )
+        String rawPassword = gen.generatePassword(
+                10,
+                List.of(
+                        splCharRule,
+                        lowerCaseRule,
+                        upperCaseRule,
+                        digitRule)
+        );
+
+        log.info(rawPassword);
+
+        return passwordEncoder.encode(rawPassword
         );
     }
 
