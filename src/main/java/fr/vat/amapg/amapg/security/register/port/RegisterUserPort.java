@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface RegisterUserPort {
 
-    void registerUser(User user, String seed);
+    String registerUser(User user, String seed);
 
 }

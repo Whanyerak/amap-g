@@ -1,4 +1,4 @@
-package fr.vat.amapg.amapg.security.persistence;
+package fr.vat.amapg.amapg.userprofile.persistence;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
