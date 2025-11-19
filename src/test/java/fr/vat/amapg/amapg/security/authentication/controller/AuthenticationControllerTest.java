@@ -1,6 +1,7 @@
 package fr.vat.amapg.amapg.security.authentication.controller;
 
 import fr.vat.amapg.amapg.configuration.bean.MockedModel;
+import fr.vat.amapg.amapg.security.authentication.AuthenticationController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

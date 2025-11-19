@@ -1,4 +1,4 @@
-package fr.vat.amapg.amapg.security.authentication.controller;
+package fr.vat.amapg.amapg.security.authentication;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

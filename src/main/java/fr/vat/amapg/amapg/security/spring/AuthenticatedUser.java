@@ -1,4 +1,4 @@
-package fr.vat.amapg.amapg.security.authentication.entity;
+package fr.vat.amapg.amapg.security.spring;
 
 import fr.vat.amapg.amapg.security.UserRole;
 import lombok.Getter;

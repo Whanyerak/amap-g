@@ -1,4 +1,4 @@
-package fr.vat.amapg.amapg.security.configuration;
+package fr.vat.amapg.amapg.security.spring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ public class SecurityConfiguration {
                 )
                 .logout(logout -> logout
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/common/homepage")
+                    .logoutSuccessUrl("showcase/index")
                     .permitAll()
                 )
                 .formLogin(Customizer.withDefaults())
