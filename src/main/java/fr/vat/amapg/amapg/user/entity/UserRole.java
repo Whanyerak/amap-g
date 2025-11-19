@@ -1,4 +1,4 @@
-package fr.vat.amapg.amapg.security;
+package fr.vat.amapg.amapg.user.entity;
 
 public enum UserRole {
 

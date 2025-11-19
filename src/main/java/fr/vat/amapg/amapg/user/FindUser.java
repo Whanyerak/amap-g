@@ -1,6 +1,7 @@
-package fr.vat.amapg.amapg.security.authentication;
+package fr.vat.amapg.amapg.user;
 
-import fr.vat.amapg.amapg.security.persistence.UserMongoAdapter;
+import fr.vat.amapg.amapg.user.entity.User;
+import fr.vat.amapg.amapg.user.persistence.UserMongoAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,4 @@
-package fr.vat.amapg.amapg.security.authentication;
-
-import fr.vat.amapg.amapg.security.UserRole;
+package fr.vat.amapg.amapg.user.entity;
 
 import java.util.Set;
 

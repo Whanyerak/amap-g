@@ -1,7 +1,7 @@
 package fr.vat.amapg.amapg.security.authentication;
 
-import fr.vat.amapg.amapg.security.persistence.UserMongoDao;
-import fr.vat.amapg.amapg.security.spring.AuthenticationAdapter;
+import fr.vat.amapg.amapg.user.persistence.UserMongoAdapter;
+import fr.vat.amapg.amapg.user.persistence.UserMongoDao;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,16 +13,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(MockitoExtension.class)
-class AuthenticationAdapterTest {
+class UserMongoAdapterTest {
 
-    private AuthenticationAdapter authenticationAdapter;
+    private UserMongoAdapter userMongoAdapter;
 
     @Mock
     private UserMongoDao userMongoDao;
 
     @BeforeEach
     void setUp() {
-        authenticationAdapter = new AuthenticationAdapter(userMongoDao);
+        userMongoAdapter = new UserMongoAdapter(userMongoDao);
     }
 
     @Test
@@ -31,7 +31,7 @@ class AuthenticationAdapterTest {
         String notExistingUsername = "not_existing_user";
 
         // Act
-        ThrowingCallable execution = () -> authenticationAdapter.loadUserByUsername(notExistingUsername);
+        ThrowingCallable execution = () -> userMongoAdapter.findByUsername(notExistingUsername);
 
         // Assert
         assertThatThrownBy(execution)

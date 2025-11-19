@@ -1,4 +1,4 @@
-package fr.vat.amapg.amapg.security.persistence;
+package fr.vat.amapg.amapg.user.persistence;
 
 import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;

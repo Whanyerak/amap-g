@@ -1,7 +1,7 @@
-package fr.vat.amapg.amapg.security.persistence;
+package fr.vat.amapg.amapg.user.persistence;
 
-import fr.vat.amapg.amapg.security.UserRole;
-import fr.vat.amapg.amapg.security.authentication.User;
+import fr.vat.amapg.amapg.user.entity.User;
+import fr.vat.amapg.amapg.user.entity.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;

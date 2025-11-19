@@ -1,7 +1,7 @@
 package fr.vat.amapg.amapg.security;
 
 import fr.vat.amapg.amapg.configuration.MongoTestConfiguration;
-import fr.vat.amapg.amapg.security.persistence.UserMongoDto;
+import fr.vat.amapg.amapg.user.persistence.UserMongoDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,30 +52,21 @@ class SecurityConfigurationTest {
 
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
-        mvc.perform(get("/login")).andExpect(status().isOk());
+        mvc.perform(get("/login"))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void shouldReturnSuccessLogin() throws Exception {
-        mvc.perform(formLogin("/login").user("testuser").password("password")).andExpect(authenticated());
+        mvc.perform(formLogin("/login").user("testuser").password("password"))
+                .andExpect(authenticated());
     }
 
     @Test
     public void userLoginFailed() throws Exception {
-        mvc.perform(formLogin("/login").user("testuser").password("wrongpassword")).andExpect(unauthenticated());
+        mvc.perform(formLogin("/login").user("testuser").password("wrongpassword"))
+                .andExpect(unauthenticated());
     }
-
-/*    @Test
-    @WithMockUser
-    public void shouldReturnUserPage() throws Exception {
-        mvc.perform(get("/auth/user")).andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockUser
-    public void shouldReturn403Forbidden() throws Exception {
-        mvc.perform(get("/auth/admin")).andExpect(status().isForbidden());
-    }*/
 
 }
 
